@@ -1,0 +1,11 @@
+<ul>
+    {{#coursecategory}}
+        <li>{{ coursecategory }}</li>
+            <ul>
+                {{#courses}}
+                <li>{{ fullname }}</li>
+                {{/courses}}
+            </ul>
+        </li>
+    {{/coursecategory}}
+</ul>
