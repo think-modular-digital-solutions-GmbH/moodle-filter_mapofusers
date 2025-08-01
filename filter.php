@@ -113,7 +113,7 @@ class filter_mapofusers extends moodle_text_filter {
      */
     protected function get_map($text) {
 
-        global $CFG, $PAGE;
+        global $CFG, $DB, $PAGE;
 
         // Get all users in a specific course.
         if (!strpos($text, 'all') && $PAGE->context && $PAGE->context instanceof context_course) {
@@ -134,9 +134,17 @@ class filter_mapofusers extends moodle_text_filter {
         // Get coordinates for each user.
         $locations = [];
         foreach ($users as $user) {
-            $locations[$user->id] = $this->get_user_location($user);
+            if ($userlocation = $this->get_user_location($user)) {
+                $locations[$user->id] = $userlocation;
+            }
         }
 
+        // Write pins info.
+        $pins = '<script type="application/json" id="map-pins-data">';
+        $pins .= json_encode(array_values($locations), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $pins .= '</script>';
+
+        // Add leaflet CSS and JS.
         $html = '<div id="worldmap" style="height: 600px;"></div>';
         $leafletcss = html_writer::empty_tag('link', [
             'rel' => 'stylesheet',
@@ -145,7 +153,7 @@ class filter_mapofusers extends moodle_text_filter {
         $leafletjs = html_writer::script('', (string) new moodle_url('/filter/mapofusers/vendor/leaflet/leaflet.js'));
         $mapinitjs = html_writer::script('', (string) new moodle_url('/filter/mapofusers/js/map_init.js'));
 
-        return $leafletcss . $html . $leafletjs . $mapinitjs;
+        return $leafletcss . $html . $leafletjs . $pins . $mapinitjs;
     }
 
     /**
@@ -191,7 +199,13 @@ class filter_mapofusers extends moodle_text_filter {
             } else {
                 $locationname = $coordinates['country'];
             }
-            $location['name'] = $locationname;
+            $name = fullname($user);
+            $location['name'] = $name;
+            $userlink = html_writer::link(
+                new moodle_url('/user/profile.php', ['id' => $user->id]),
+                $name,
+            );
+            $location['label'] = $userlink . ' - ' . $locationname;
             return array_merge($location, $coordinates);
         }
     }
