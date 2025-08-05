@@ -24,5 +24,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Backwards compatibility.
-class_alias(\filter_mapofusers\text_filter::class, \filter_mapofusers::class);
+require_once($CFG->dirroot . '/course/renderer.php');
+
+/**
+ * Before HTTP headers are sent, this function is called to add styles.
+ *
+ * @return void
+ */
+function filter_mapofusers_before_http_headers() {
+    global $PAGE;
+
+    $PAGE->requires->css('/filter/mapofusers/styles.css');
+}

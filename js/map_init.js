@@ -12,9 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize the map
     const map = L.map('worldmap', {
-        center: [20, 0], // center of the world
-        zoom: 2,
-        scrollWheelZoom: false // 👈 disables zooming via mouse wheel
+        ...window.mapofusersConfig
     });
 
     // Get grid.
@@ -32,9 +30,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
             pins.forEach(pin => {
                 console.log('🌍 Adding marker for :', pin.name , ' at :', pin.location);
-                const marker = L.marker([pin.lat, pin.lng]).addTo(map);
+
+                // Create custom icon if image is provided
+                const icon = pin.image ? L.icon({
+                    iconUrl: pin.image,
+                    iconSize: [25, 41],       // adjust as needed
+                    iconAnchor: [12, 41],     // bottom center
+                    popupAnchor: [0, -41]     // above the marker
+                }) : undefined;
+
+                // Create marker with or without custom icon
+                const markerOptions = icon ? { icon } : {};
+                const marker = L.marker([pin.lat, pin.lng], markerOptions).addTo(map);
+
                 marker.bindPopup(pin.label);
             });
+
         } catch (e) {
             console.error('Could not parse map pin data:', e);
         }
