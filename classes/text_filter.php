@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use moodle_url;
 use html_writer;
+use context_course;
 
 /**
  * Implementation of the Moodle filter API for the Map of users filter.
