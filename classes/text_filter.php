@@ -198,15 +198,28 @@ class text_filter extends \mapofusers_base_text_filter {
         if (!$locationdata) {
             $csv = file_get_contents(__DIR__ . '/../vendor/simplemaps/worldcities.csv');
             $lines = explode("\n", $csv);
+            unset($lines[0]); // Remove header line.
             $locationdata = [];
             foreach ($lines as $line) {
                 $data = str_getcsv($line);
                 if (count($data) >= 3) {
-                    $locationdata[$data[5]][$data[0]] = [
-                        'lat' => (float)$data[2],
-                        'lng' => (float)$data[3],
-                        'country' => $data[4],
-                    ];
+                    $city = trim($data[1]);
+                    $lat = trim($data[2]);
+                    $lng = trim($data[3]);
+                    $country = trim($data[4]);
+                    $code = trim($data[5]);
+
+                    if (!array_key_exists($code, $locationdata)) {
+                        $locationdata[$code] = [];
+                    }
+
+                    if (!array_key_exists($city, $locationdata[$code])) {
+                        $locationdata[$code][$city] = [
+                            'lat' => (float)$lat,
+                            'lng' => (float)$lng,
+                            'country' => $country,
+                        ];
+                    }
                 }
             }
 
@@ -233,9 +246,9 @@ class text_filter extends \mapofusers_base_text_filter {
 
         // Location string for pin.
         $location = '';
-        if ($country = $user->country) {
+        if ($country == $user->country) {
             $location = $country;
-            if ($city = $user->city) {
+            if ($city == $user->city) {
                 $location = $city . ', ' . $country;
             }
         }
