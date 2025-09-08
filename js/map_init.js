@@ -7,15 +7,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    console.log('Leaflet loaded:', typeof L !== 'undefined');
-    console.log('Initializing map...');
-
     // Initialize the map
     const map = L.map('worldmap', {
         ...window.mapofusersConfig
     });
 
-    // Get grid.
+    // Get grid
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 18
@@ -34,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Create custom icon if image is provided
                 const icon = pin.image ? L.icon({
                     iconUrl: pin.image,
+                    className: pin.class,
                     iconSize: [25, 41],       // adjust as needed
                     iconAnchor: [12, 41],     // bottom center
                     popupAnchor: [0, -41]     // above the marker
@@ -47,9 +45,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         } catch (e) {
-            console.error('Could not parse map pin data:', e);
+            console.error('🌍 Could not parse map pin data:', e);
         }
     } else {
-        console.warn('Map pins data container #map-pins-data not found.');
+        console.warn('🌍 Map pins data container #map-pins-data not found.');
     }
 });

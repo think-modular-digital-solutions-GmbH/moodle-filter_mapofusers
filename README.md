@@ -4,9 +4,15 @@
 
 A plugin that uses the free leaflet.js and simplemaps database to show pins for the locations of users on a map.
 
+If a location contains more than one user, it will show as a darker pin, and contain information about all the users located there.
+
 ## Installation
 
 Place in /filter and enable in the "Manage filters" administration.
+
+## Configuration
+
+In the filter settings, you can choose what text to display when a pin is clicked.
 
 ## Usage
 

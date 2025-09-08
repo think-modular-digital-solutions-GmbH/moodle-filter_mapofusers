@@ -151,7 +151,21 @@ class text_filter extends \mapofusers_base_text_filter {
         $locations = [];
         foreach ($users as $user) {
             if ($userlocation = $this->build_pin($user)) {
-                $locations[$user->id] = $userlocation;
+                $pin_location = $userlocation['lat'] . ',' . $userlocation['lng'];
+                if (array_key_exists($pin_location, $locations)) {
+
+                    // If location already exists, append user info to existing location.
+                    $locations[$pin_location]['class'] = 'mapofusers-pin-multiple';
+                    $locations[$pin_location]['users'][] = $userlocation;
+                    $locations[$pin_location]['label'] .= '<br><hr>' . $userlocation['label'];
+
+                } else {
+
+                    // Create new location entry.
+                    $locations[$pin_location]['class'] = 'mapofusers-pin-single';
+                    $userlocation['users'] = [$userlocation];
+                    $locations[$pin_location] = $userlocation;
+                }
             }
         }
 
@@ -300,6 +314,7 @@ class text_filter extends \mapofusers_base_text_filter {
 
             // Build pin data.
             $pin = [];
+            $ping['userid'] = $user->id;
             $pin['name'] = $name;
             $pin['label'] = $label;
             $pin['location'] = $user->location;

@@ -32,8 +32,8 @@ $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = [];
 
 // Version.
-$plugin->version   = 2025080401;
-$plugin->release = '1.0.0';
+$plugin->version   = 2025090801;
+$plugin->release = '1.0.1 (Build 2025090801)';
 
 // Supported versions.
 $plugin->supported = [401, 500];
