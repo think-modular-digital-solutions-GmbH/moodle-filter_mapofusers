@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<libraries>
+    <library>
+        <location>vendor/leaflet</location>
+        <name>Leaflet</name>
+        <version>1.9.4</version>
+        <license>BSD 2-Clause License</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>vendor/simplemaps</location>
+        <name>simplemaps World Cities Database</name>
+        <version>May 11, 2025</version>
+        <license>Creative Commons Attribution</license>
+        <licenseversion>4.0</licenseversion>
+    </library>
+</libraries>
