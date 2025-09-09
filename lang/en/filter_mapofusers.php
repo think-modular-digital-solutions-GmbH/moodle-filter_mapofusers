@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -26,9 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['filtername'] = 'Map of Users';
-$string['privacy:metadata'] = 'The Map of Users filter plugin does not store any personal data.';
+$string['cachedef_locationdata'] = 'Cache for location data for mapofusers filter';
 $string['errormsg'] = 'Malformed parameters for filter_mapofusers. Please check your syntax.';
+$string['filtername'] = 'Map of Users';
 $string['labeltext'] = 'HTML for pin labels';
 $string['labeltext_desc'] = 'This HTML will be used as a label for the pins on the map. <ul>
 <li>You can use placeholders like {firstname} and {lastname} to include any value from the user</li>
@@ -40,3 +39,4 @@ $string['mapconfig'] = 'Leaflet map configuration';
 $string['mapconfig_desc'] = 'This configuration will be used to set up the leaflet.js map. Must be valid JSON. See leaflet.js or the ai or your choice for more info. Leave on default if unsure.';
 $string['pinimage'] = 'Pin image';
 $string['pinimage_desc'] = 'Optionally upload an alternative image to use as a pin on the map. The image should be small, ideally 25x41 pixels.';
+$string['privacy:metadata'] = 'The Map of Users filter plugin does not store any personal data.';

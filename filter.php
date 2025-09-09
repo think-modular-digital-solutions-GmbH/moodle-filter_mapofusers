@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * File only retained to prevent fatal errors in code that tries to require/include this.
+ *
  * @package    filter_mapofusers
  * @author     Stefan Weber (stefan.weber@think-modular.com)
  * @copyright  2025 think-modular
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
 
 // Backwards compatibility.
 class_alias(\filter_mapofusers\text_filter::class, \filter_mapofusers::class);
