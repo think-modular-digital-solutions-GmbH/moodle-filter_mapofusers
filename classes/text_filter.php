@@ -43,12 +43,12 @@ class text_filter extends \mapofusers_base_text_filter {
     const TOKEN = '{{ mapofusers ';
 
     /**
-     * Location data for leaflet.js.
+     * @var array Location data from CSV file.
      */
     private $locationdata = null;
 
     /**
-     * Plugin config.
+     * @var stdClass Configuration settings from admin settings page.
      */
     private $config = null;
 
@@ -105,8 +105,9 @@ class text_filter extends \mapofusers_base_text_filter {
                     $atoms[0] = $this->get_map($atoms[0]);
                     $parts[$key] = implode($atoms);
 
-                // Show error.
                 } else {
+
+                    // Show error.
                     return $this->return_error(get_string('errormsg', 'filter_mapofusers'), $text);
                 }
             }

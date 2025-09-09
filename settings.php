@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Settings for mapofusers filter.
+ *
  * @package    filter_mapofusers
  * @author     Stefan Weber (stefan.weber@think-modular.com)
  * @copyright  2025 think-modular
