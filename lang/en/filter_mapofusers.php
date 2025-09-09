@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['cachedef_locationdata'] = 'Cache for location data for mapofusers filter';
 $string['errormsg'] = 'Malformed parameters for filter_mapofusers. Please check your syntax.';
 $string['filtername'] = 'Map of Users';
 $string['labeltext'] = 'HTML for pin labels';
