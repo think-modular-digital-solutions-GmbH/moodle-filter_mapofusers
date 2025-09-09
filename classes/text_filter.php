@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,48 +14,46 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package    filter_mapofusers
- * @author     Stefan Weber (stefan.weber@think-modular.com)
- * @copyright  2025 think-modular
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace filter_mapofusers;
-
-defined('MOODLE_INTERNAL') || die();
 
 use moodle_url;
 use html_writer;
 use context_course;
 
-/**
- * Implementation of the Moodle filter API for the Map of users filter.
- *
- * @package    filter_mapofusers
- * @author     Stefan Weber (stefan.weber@think-modular.com)
- * @copyright  2025 think-modular
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
+// Backward compatibility.
 if (class_exists('\core_filters\text_filter')) {
     class_alias('\core_filters\text_filter', 'mapofusers_base_text_filter');
 } else {
     class_alias('\moodle_text_filter', 'mapofusers_base_text_filter');
 }
 
+/**
+ * Text filter to display a map of users.
+ *
+ * @package    filter_mapofusers
+ * @author     Stefan Weber (stefan.weber@think-modular.com)
+ * @copyright  2025 think-modular
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class text_filter extends \mapofusers_base_text_filter {
 
+    /**
+     * Token to search for.
+     */
     const TOKEN = '{{ mapofusers ';
 
     /**
-     * @var null
+     * Location data for leaflet.js.
      */
     private $locationdata = null;
+
+    /**
+     * Plugin config.
+     */
     private $config = null;
 
     /**
-     * Constructor.
+     * Constructor
      */
     public function __construct() {
         $this->config = get_config('filter_mapofusers');
@@ -64,11 +61,15 @@ class text_filter extends \mapofusers_base_text_filter {
 
     /**
      * Function called by Moodle.
+     *
+     * @param string $text
+     * @param array $options
+     * @return string
      */
-    public function filter($text, array $options = array()) {
+    public function filter($text, array $options = []) {
         global $CFG, $PAGE;
 
-        if (empty($text) or is_numeric($text)) {
+        if (empty($text) || is_numeric($text)) {
             return $text;
         }
 
@@ -78,7 +79,6 @@ class text_filter extends \mapofusers_base_text_filter {
             return $text;
         }
     }
-
 
     /**
      * Does the actual filtering.
@@ -116,15 +116,11 @@ class text_filter extends \mapofusers_base_text_filter {
         return implode($parts);
     }
 
-
     /**
      * Returns a map of user's locations using leaflet.
      *
-     * @param array $courseids
-     * @param array $categoryids
-     * @param string $fields
-     * @param string $sort
-     * @return array $courses
+     * @param string $text
+     * @return string HTML to embed the map
      *
      */
     protected function get_map($text) {
@@ -151,20 +147,20 @@ class text_filter extends \mapofusers_base_text_filter {
         $locations = [];
         foreach ($users as $user) {
             if ($userlocation = $this->build_pin($user)) {
-                $pin_location = $userlocation['lat'] . ',' . $userlocation['lng'];
-                if (array_key_exists($pin_location, $locations)) {
+                $pinlocation = $userlocation['lat'] . ',' . $userlocation['lng'];
+                if (array_key_exists($pinlocation, $locations)) {
 
                     // If location already exists, append user info to existing location.
-                    $locations[$pin_location]['class'] = 'mapofusers-pin-multiple';
-                    $locations[$pin_location]['users'][] = $userlocation;
-                    $locations[$pin_location]['label'] .= '<br><hr>' . $userlocation['label'];
+                    $locations[$pinlocation]['class'] = 'mapofusers-pin-multiple';
+                    $locations[$pinlocation]['users'][] = $userlocation;
+                    $locations[$pinlocation]['label'] .= '<br><hr>' . $userlocation['label'];
 
                 } else {
 
                     // Create new location entry.
-                    $locations[$pin_location]['class'] = 'mapofusers-pin-single';
+                    $locations[$pinlocation]['class'] = 'mapofusers-pin-single';
                     $userlocation['users'] = [$userlocation];
-                    $locations[$pin_location] = $userlocation;
+                    $locations[$pinlocation] = $userlocation;
                 }
             }
         }
@@ -178,9 +174,15 @@ class text_filter extends \mapofusers_base_text_filter {
         $html = '<div id="worldmap" style="height: 600px;"></div>';
         $leafletcss = html_writer::empty_tag('link', [
             'rel' => 'stylesheet',
-            'href' => (string) new moodle_url('/filter/mapofusers/vendor/leaflet/leaflet.css')
+            'href' => (string) new moodle_url('/filter/mapofusers/vendor/leaflet/leaflet.css'),
         ]);
         $leafletjs = html_writer::script('', (string) new moodle_url('/filter/mapofusers/vendor/leaflet/leaflet.js'));
+
+        // Add our own CSS - this has to be added this late in order to load after Moodle core CSS.
+        $ourcss = html_writer::empty_tag('link', [
+            'rel' => 'stylesheet',
+            'href' => (string) new moodle_url('/filter/mapofusers/css/styles.css'),
+        ]);
 
         // Add leaflet map configuration.
         $configraw = $this->config->map_config;
@@ -196,7 +198,7 @@ class text_filter extends \mapofusers_base_text_filter {
         // Add leaflet map initialization script.
         $mapinitjs = html_writer::script('', (string) new moodle_url('/filter/mapofusers/js/map_init.js'));
 
-        return $leafletcss . $html . $leafletjs . $pins . $mapinitjs;
+        return $leafletcss . $ourcss . $html . $leafletjs . $pins . $mapinitjs;
     }
 
     /**
@@ -283,7 +285,7 @@ class text_filter extends \mapofusers_base_text_filter {
         }
 
         // If coordinates are found, merge with location.
-        if($coordinates) {
+        if ($coordinates) {
 
             // Get user location.
             if ($city) {
@@ -329,7 +331,7 @@ class text_filter extends \mapofusers_base_text_filter {
     /**
      * Returns original text plus error message.
      *
-     * @param string $errormessage
+     * @param string $errormsg
      * @param string $text
      * @return string
      */
