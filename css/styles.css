@@ -1,5 +1,5 @@
 #worldmap .leaflet-control-container .leaflet-control-zoom.leaflet-bar.leaflet-control a {
-    text-decoration: none !important;
+    text-decoration: none;
 }
 
 .mapofusers-pin-multiple {

@@ -1,5 +1,4 @@
-console.log('🌍 Initializing filter_mapforusers...');
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const mapContainer = document.getElementById('worldmap');
 
     if (!mapContainer) {
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const pins = JSON.parse(raw);
 
             pins.forEach(pin => {
-                console.log('🌍 Adding marker for :', pin.name , ' at :', pin.location);
 
                 // Create custom icon if image is provided
                 const icon = pin.image ? L.icon({
@@ -45,9 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         } catch (e) {
-            console.error('🌍 Could not parse map pin data:', e);
+            return;
         }
-    } else {
-        console.warn('🌍 Map pins data container #map-pins-data not found.');
     }
 });

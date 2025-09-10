@@ -218,7 +218,7 @@ class text_filter extends \mapofusers_base_text_filter {
             unset($lines[0]); // Remove header line.
             $locationdata = [];
             foreach ($lines as $line) {
-                $data = str_getcsv($line);
+                $data = str_getcsv($line, ',', "\"", "\\");
                 if (count($data) >= 3) {
                     $city = trim($data[1]);
                     $lat = trim($data[2]);
@@ -339,5 +339,4 @@ class text_filter extends \mapofusers_base_text_filter {
     protected function return_error($errormsg, $text) {
         return '<div class="alert alert-danger">' . $errormsg . '</div>' . $text;
     }
-
 }
