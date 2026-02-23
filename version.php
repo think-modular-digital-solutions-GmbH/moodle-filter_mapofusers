@@ -26,14 +26,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 // Basics.
-$plugin->requires  = 2022112800; // Requires Moodle 4.1 or later.
+$plugin->requires  = 2024100700;
 $plugin->component = 'filter_mapofusers';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = [];
 
 // Version.
-$plugin->version   = 2025091001;
-$plugin->release = '1.0.2 (Build 2025091001)';
+$plugin->version   = 2026022301;
+$plugin->release = '1.0.3 (Build 2026022301)';
 
 // Supported versions.
-$plugin->supported = [401, 500];
+$plugin->supported = [405, 501];

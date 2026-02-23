@@ -40,3 +40,4 @@ $string['mapconfig_desc'] = 'This configuration will be used to set up the leafl
 $string['pinimage'] = 'Pin image';
 $string['pinimage_desc'] = 'Optionally upload an alternative image to use as a pin on the map. The image should be small, ideally 25x41 pixels.';
 $string['privacy:metadata'] = 'The Map of Users filter plugin does not store any personal data.';
+$string['simplemaps'] = 'Location data by <a href="https://simplemaps.com" target="_blank">simplemaps World Cities Database</a>';

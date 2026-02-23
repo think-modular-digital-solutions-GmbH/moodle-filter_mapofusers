@@ -172,7 +172,12 @@ class text_filter extends \mapofusers_base_text_filter {
         $pins .= '</script>';
 
         // Add leaflet CSS and JS.
-        $html = '<div id="worldmap" style="height: 600px;"></div>';
+        $html = '<div id="worldmap" style="height: 600px;">';
+        $html .=  html_writer::div(
+            get_string('simplemaps', 'filter_mapofusers'),
+            'leaflet-top leaflet-right leaflet-control-attribution leaflet-control'
+        );
+        $html .= '</div>';
         $leafletcss = html_writer::empty_tag('link', [
             'rel' => 'stylesheet',
             'href' => (string) new moodle_url('/filter/mapofusers/vendor/leaflet/leaflet.css'),
