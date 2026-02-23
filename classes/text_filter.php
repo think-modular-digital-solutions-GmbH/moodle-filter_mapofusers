@@ -36,7 +36,6 @@ if (class_exists('\core_filters\text_filter')) {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class text_filter extends \mapofusers_base_text_filter {
-
     /**
      * Token to search for.
      */
@@ -93,20 +92,15 @@ class text_filter extends \mapofusers_base_text_filter {
         $parts = preg_split($regex, $text);
 
         foreach ($parts as $key => $part) {
-
             if (strpos($part, self::TOKEN) === 0) {
-
                 $atoms = explode(' }}', $part);
 
                 // Check filter integrity.
                 if (count($atoms) == 2) {
-
                     // Replace filter code with filter content.
                     $atoms[0] = $this->get_map($atoms[0]);
                     $parts[$key] = implode($atoms);
-
                 } else {
-
                     // Show error.
                     return $this->return_error(get_string('errormsg', 'filter_mapofusers'), $text);
                 }
@@ -150,14 +144,11 @@ class text_filter extends \mapofusers_base_text_filter {
             if ($userlocation = $this->build_pin($user)) {
                 $pinlocation = $userlocation['lat'] . ',' . $userlocation['lng'];
                 if (array_key_exists($pinlocation, $locations)) {
-
                     // If location already exists, append user info to existing location.
                     $locations[$pinlocation]['class'] = 'mapofusers-pin-multiple';
                     $locations[$pinlocation]['users'][] = $userlocation;
                     $locations[$pinlocation]['label'] .= '<br><hr>' . $userlocation['label'];
-
                 } else {
-
                     // Create new location entry.
                     $locations[$pinlocation]['class'] = 'mapofusers-pin-single';
                     $userlocation['users'] = [$userlocation];
@@ -173,7 +164,7 @@ class text_filter extends \mapofusers_base_text_filter {
 
         // Add leaflet CSS and JS.
         $html = '<div id="worldmap" style="height: 600px;">';
-        $html .=  html_writer::div(
+        $html .= html_writer::div(
             get_string('simplemaps', 'filter_mapofusers'),
             'leaflet-top leaflet-right leaflet-control-attribution leaflet-control'
         );
@@ -278,7 +269,6 @@ class text_filter extends \mapofusers_base_text_filter {
         // Get country.
         $coordinates = [];
         if (array_key_exists($country, $this->locationdata)) {
-
             $countrydata = $this->locationdata[$country];
 
             // Get city.
@@ -292,7 +282,6 @@ class text_filter extends \mapofusers_base_text_filter {
 
         // If coordinates are found, merge with location.
         if ($coordinates) {
-
             // Get user location.
             if ($city) {
                 $user->location = "$city, {$coordinates['country']}";

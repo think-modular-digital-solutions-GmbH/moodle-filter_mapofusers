@@ -27,45 +27,42 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/renderer.php');
 
-if ($hassiteconfig) {
-    if ($ADMIN->fulltree) {
+if ($hassiteconfig && $ADMIN->fulltree) {
+    // Labels.
+    $settings->add(new admin_setting_configtextarea(
+        'filter_mapofusers/labeltext',
+        get_string('labeltext', 'filter_mapofusers'),
+        get_string('labeltext_desc', 'filter_mapofusers'),
+        '{userlink} - {location}',
+        PARAM_TEXT
+    ));
 
-        // Labels.
-        $settings->add(new admin_setting_configtextarea(
-            'filter_mapofusers/labeltext',
-            get_string('labeltext', 'filter_mapofusers'),
-            get_string('labeltext_desc', 'filter_mapofusers'),
-            '{userlink} - {location}',
-            PARAM_TEXT
-        ));
+    // Map configuration.
+    $settings->add(new admin_setting_configtextarea(
+        'filter_mapofusers/map_config',
+        get_string('mapconfig', 'filter_mapofusers'),
+        get_string('mapconfig_desc', 'filter_mapofusers'),
+        '{
+            "center": [20, 0],
+            "zoom": 2,
+            "minZoom": 2,
+            "maxZoom": 10,
+            "scrollWheelZoom": true,
+            "maxBoundsViscosity": 1.0,
+            "maxBounds": [
+                [-85, -180],
+                [85, 180]
+            ]
+        }',
+        PARAM_RAW
+    ));
 
-        // Map configuration.
-        $settings->add(new admin_setting_configtextarea(
-            'filter_mapofusers/map_config',
-            get_string('mapconfig', 'filter_mapofusers'),
-            get_string('mapconfig_desc', 'filter_mapofusers'),
-            '{
-                "center": [20, 0],
-                "zoom": 2,
-                "minZoom": 2,
-                "maxZoom": 10,
-                "scrollWheelZoom": true,
-                "maxBoundsViscosity": 1.0,
-                "maxBounds": [
-                    [-85, -180],
-                    [85, 180]
-                ]
-            }',
-            PARAM_RAW
-        ));
-
-        // Pin image.
-        $settings->add(new admin_setting_configtext(
-            'filter_mapofusers/pin_image',
-            get_string('pinimage', 'filter_mapofusers'),
-            get_string('pinimage_desc', 'filter_mapofusers'),
-            '',
-            PARAM_URL
-        ));
-    }
+    // Pin image.
+    $settings->add(new admin_setting_configtext(
+        'filter_mapofusers/pin_image',
+        get_string('pinimage', 'filter_mapofusers'),
+        get_string('pinimage_desc', 'filter_mapofusers'),
+        '',
+        PARAM_URL
+    ));
 }
