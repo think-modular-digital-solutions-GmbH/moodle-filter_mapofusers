@@ -150,9 +150,9 @@ class text_filter extends \mapofusers_base_text_filter {
                     $locations[$pinlocation]['label'] .= '<br><hr>' . $userlocation['label'];
                 } else {
                     // Create new location entry.
-                    $locations[$pinlocation]['class'] = 'mapofusers-pin-single';
                     $userlocation['users'] = [$userlocation];
                     $locations[$pinlocation] = $userlocation;
+                    $locations[$pinlocation]['class'] = 'mapofusers-pin-single';
                 }
             }
         }
