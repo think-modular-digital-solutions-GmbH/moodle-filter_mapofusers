@@ -123,9 +123,13 @@ class text_filter extends \mapofusers_base_text_filter {
         global $CFG, $DB, $PAGE;
 
         // Get all users in a specific course.
-        if (!strpos($text, 'all') && $PAGE->context && $PAGE->context instanceof context_course) {
-            $context = $PAGE->context;
-            $users = get_enrolled_users($context);
+        $context = $PAGE->context;
+        if (!strpos($text, 'all')) {
+            if ($PAGE->context && $PAGE->context->contextlevel >= CONTEXT_COURSE) {
+                if ($coursecontext = $PAGE->context->get_course_context(false)) {
+                    $users = get_enrolled_users($coursecontext);
+                }
+            }
         }
 
         // Get all users in the system.
